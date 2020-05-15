@@ -138,6 +138,19 @@ button:focus {
   list-style-type: none;
 }
 
+.font-size-subform {
+  display: flex;
+  align-items: center;
+}
+
+#font-size-slider {
+  margin-bottom: 0;
+}
+
+#font-size-label {
+  margin-left: 0.5em;
+}
+
 #result-instruction {
   margin-top: 1em;
 }

@@ -6,7 +6,8 @@ import domToImage from 'dom-to-image';
 
 var formWired = false;
 var textFieldEl = document.getElementById('text-field');
-var fontSizeFieldEl = document.getElementById('font-size-field');
+var fontSizeSliderEl = document.getElementById('font-size-slider');
+var fontSizeLabelEl = document.getElementById('font-size-label');
 var imageSizeFieldEl = document.getElementById('image-size-field');
 var emojiTextEl = document.getElementById('emoji-text');
 var buildButtonEl = document.getElementById('build-button');
@@ -26,7 +27,7 @@ var routeState = RouteState({
   routeState.routeFromHash();
 })();
 
-function followRoute({ text = 'lol', fontSize = '8em', imageSize = '512px' }) {
+function followRoute({ text = 'lol', fontSize = 192, imageSize = '512px' }) {
   updateForm({ text, fontSize, imageSize });
   renderPreview({ text, fontSize, imageSize });
   wireForm();
@@ -34,12 +35,13 @@ function followRoute({ text = 'lol', fontSize = '8em', imageSize = '512px' }) {
 
 function updateForm({ text, fontSize, imageSize }) {
   textFieldEl.value = text;
-  fontSizeFieldEl.value = fontSize;
+  fontSizeSliderEl.value = fontSize;
+  fontSizeLabelEl.textContent = fontSize;
   imageSizeFieldEl.value = imageSize;
 }
 
 function renderPreview({ text, fontSize, imageSize }) {
-  emojiTextEl.style.fontSize = fontSize;
+  emojiTextEl.style.fontSize = fontSize + 'px';
   emojiTextEl.textContent = text;
   previewStageEl.style.width = imageSize;
   previewStageEl.style.height = imageSize;
@@ -56,10 +58,11 @@ function wireForm() {
     'keyup',
     curry(updateRoute)('text', textFieldEl)
   );
-  fontSizeFieldEl.addEventListener(
-    'keyup',
-    curry(updateRoute)('fontSize', fontSizeFieldEl)
+  fontSizeSliderEl.addEventListener(
+    'change',
+    curry(updateRoute)('fontSize', fontSizeSliderEl)
   );
+  fontSizeSliderEl.addEventListener('change', updateFontSizeLabel);
   imageSizeFieldEl.addEventListener(
     'keyup',
     curry(updateRoute)('imageSize', imageSizeFieldEl)
@@ -72,6 +75,10 @@ function wireForm() {
 function updateRoute(prop, inputEl, e) {
   e.composing;
   routeState.addToRoute({ [prop]: inputEl.value });
+}
+
+function updateFontSizeLabel() {
+  fontSizeLabelEl.textContent = fontSizeSliderEl.value;
 }
 
 function onBuildClick() {
