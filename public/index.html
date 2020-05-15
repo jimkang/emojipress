@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+
+    <title>Emojipress</title>
+
+    <link rel="icon" type="image/png" href="favicon.png" />
+    <link rel="stylesheet" href="app.css" />
+
+    <script defer src="build/bundle.js"></script>
+  </head>
+
+  <body>
+    <main class="centered-col">
+      <h1>Emojipress</h1>
+      <h2>Make your own squared, blue-gray emoji here!</h2>
+
+      <section class="form">
+        <ul>
+          <li>
+            <h3>Text:</h3>
+            <input id="text-field" type="text" value="text">
+          </li>
+          <li>
+            <h3>Font size:</h3>
+            <input id="font-size-field" type="text" value="20em">
+          </li>
+          <li>
+            <h3>Image size:</h3>
+            <input id="image-size-field" type="text" value="512px">
+          </li>
+        </ul>
+      </section>
+
+      <section class="preview centered-col">
+        <h2>Preview</h2>
+        <div id="preview-stage">
+          <div class="inner-shine centered-col">
+            <div id="emoji-text">text</div>
+          </div>
+        </div>
+        <button id="build-button">Build it</button>
+      </section>
+
+      <section class="result hidden centered-col">
+        <h2>Result</h2>
+
+        <div id="status-message" class="hidden"></div>
+
+        <img id="result-image" class="hidden" width="512" height="512"></img>
+        <div class="hidden" id="result-instruction">Right-click or long press that thing and download it!</div>
+      </section>
+    </main>
+    <div id="version-info"></div>
+  </body>
+</html>
