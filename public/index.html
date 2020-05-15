@@ -26,14 +26,26 @@
           <li>
             <h3>Font size:</h3>
             <div class="font-size-subform">
-              <input id="font-size-slider" type="range" value="192" min="1" max="512">
-              <span id="font-size-label">192</span>px
+              <input id="font-size-slider" type="range" width="80%" value="128" min="24" max="300">
+              <span id="font-size-label">128</span>px
             </div>
           </li>
-          <li>
-            <h3>Image size:</h3>
-            <input id="image-size-field" type="text" value="512px">
-          </li>
+          <!-- <li>
+            <h3>Image size:</h3> -->
+            <!-- <input id="image-size-field" type="text" value="256px"> -->
+            <!-- <div class="radlab">
+              <input type="radio" id="small" name="image-size-field" value="128px">
+              <label for="small">Small</label>
+            </div>
+            <div class="radlab">
+              <input type="radio" id="medium" name="image-size-field" value="256px" checked>
+              <label for="medium">Medium</label>
+            </div>
+            <div class="radlab">
+              <input type="radio" id="large" name="image-size-field" value="512px">
+              <label for="large">Large</label>
+            </div>
+          </li> -->
         </ul>
       </section>
 
@@ -52,8 +64,20 @@
 
         <div id="status-message" class="hidden"></div>
 
-        <img id="result-image" class="hidden" width="512" height="512"></img>
+        <img id="result-image" width="256" height="256"></img>
         <div class="hidden" id="result-instruction">Right-click or long press that thing and download it!</div>
+        <div class="preview-helpers">
+          <h3>Slack Preview Zone</h3>
+          <div class="preview-light">
+            <img id="result-image-sm" width="32" height="32"></img>
+            <img id="result-image-xs" width="20" height="20"></img>
+          </div>
+          <div class="preview-dark">
+            <img id="result-image-sm-dk" width="32" height="32"></img>
+            <img id="result-image-xs-dk" width="20" height="20"></img>
+          </div>
+        </div>
+        
       </section>
     </main>
     <div id="version-info"></div>
