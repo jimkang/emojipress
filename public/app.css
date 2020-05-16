@@ -139,6 +139,11 @@ button:focus {
   margin-bottom: .25rem;
 }
 
+#result-image {
+  width: 256px;
+  height: 256px;
+}
+
 #preview-stage {
   overflow: hidden;
 }

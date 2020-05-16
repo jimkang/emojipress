@@ -31,26 +31,21 @@ var routeState = RouteState({
   routeState.routeFromHash();
 })();
 
-function followRoute({ text = 'lol', fontSize = 128, imageSize = '256px' }) {
-  updateForm({ text, fontSize, imageSize });
-  renderPreview({ text, fontSize, imageSize });
+function followRoute({ text = 'lol', fontSize = 128 }) {
+  updateForm({ text, fontSize });
+  renderPreview({ text, fontSize });
   wireForm();
 }
 
-function updateForm({ text, fontSize, imageSize = '256px' }) {
+function updateForm({ text, fontSize }) {
   textFieldEl.value = text;
   fontSizeSliderEl.value = fontSize;
   fontSizeLabelEl.textContent = fontSize;
-  // imageSizeFieldEl.value = imageSize;
 }
 
-function renderPreview({ text, fontSize, imageSize }) {
+function renderPreview({ text, fontSize }) {
   emojiTextEl.style.fontSize = fontSize + 'px';
   emojiTextEl.textContent = text;
-  previewStageEl.style.width = imageSize;
-  previewStageEl.style.height = imageSize;
-  resultImageEl.style.width = imageSize;
-  resultImageEl.style.height = imageSize;
 }
 
 function wireForm() {
@@ -67,10 +62,6 @@ function wireForm() {
     curry(updateRoute)('fontSize', fontSizeSliderEl)
   );
   fontSizeSliderEl.addEventListener('change', updateFontSizeLabel);
-  // imageSizeFieldEl.addEventListener(
-  //   'change',
-  //   curry(updateRoute)('imageSize', imageSizeFieldEl)
-  // );
   buildButtonEl.addEventListener('click', onBuildClick);
 
   formWired = true;
@@ -99,7 +90,6 @@ function renderResult(dataURL) {
   resultImageElXs.src = dataURL;
   resultImageElSmDk.src = dataURL;
   resultImageElXsDk.src = dataURL;
-  // resultImageEl.classList.remove('hidden');
   resultInstructionEl.classList.remove('hidden');
 }
 
