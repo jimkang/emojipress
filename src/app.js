@@ -8,11 +8,15 @@ var formWired = false;
 var textFieldEl = document.getElementById('text-field');
 var fontSizeSliderEl = document.getElementById('font-size-slider');
 var fontSizeLabelEl = document.getElementById('font-size-label');
-var imageSizeFieldEl = document.getElementById('image-size-field');
+// var imageSizeFieldEl = document.querySelector('input[name="image-size-field"]:checked');
 var emojiTextEl = document.getElementById('emoji-text');
 var buildButtonEl = document.getElementById('build-button');
 var previewStageEl = document.getElementById('preview-stage');
 var resultImageEl = document.getElementById('result-image');
+var resultImageElSm = document.getElementById('result-image-sm');
+var resultImageElXs = document.getElementById('result-image-xs');
+var resultImageElSmDk = document.getElementById('result-image-sm-dk');
+var resultImageElXsDk = document.getElementById('result-image-xs-dk');
 var resultSectionEl = document.querySelector('.result');
 var resultInstructionEl = document.getElementById('result-instruction');
 
@@ -27,17 +31,17 @@ var routeState = RouteState({
   routeState.routeFromHash();
 })();
 
-function followRoute({ text = 'lol', fontSize = 192, imageSize = '512px' }) {
+function followRoute({ text = 'lol', fontSize = 128, imageSize = '256px' }) {
   updateForm({ text, fontSize, imageSize });
   renderPreview({ text, fontSize, imageSize });
   wireForm();
 }
 
-function updateForm({ text, fontSize, imageSize }) {
+function updateForm({ text, fontSize, imageSize = '256px' }) {
   textFieldEl.value = text;
   fontSizeSliderEl.value = fontSize;
   fontSizeLabelEl.textContent = fontSize;
-  imageSizeFieldEl.value = imageSize;
+  // imageSizeFieldEl.value = imageSize;
 }
 
 function renderPreview({ text, fontSize, imageSize }) {
@@ -63,10 +67,10 @@ function wireForm() {
     curry(updateRoute)('fontSize', fontSizeSliderEl)
   );
   fontSizeSliderEl.addEventListener('change', updateFontSizeLabel);
-  imageSizeFieldEl.addEventListener(
-    'keyup',
-    curry(updateRoute)('imageSize', imageSizeFieldEl)
-  );
+  // imageSizeFieldEl.addEventListener(
+  //   'change',
+  //   curry(updateRoute)('imageSize', imageSizeFieldEl)
+  // );
   buildButtonEl.addEventListener('click', onBuildClick);
 
   formWired = true;
@@ -91,7 +95,11 @@ function onBuildClick() {
 
 function renderResult(dataURL) {
   resultImageEl.src = dataURL;
-  resultImageEl.classList.remove('hidden');
+  resultImageElSm.src = dataURL;
+  resultImageElXs.src = dataURL;
+  resultImageElSmDk.src = dataURL;
+  resultImageElXsDk.src = dataURL;
+  // resultImageEl.classList.remove('hidden');
   resultInstructionEl.classList.remove('hidden');
 }
 
