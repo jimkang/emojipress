@@ -100,7 +100,6 @@ button:focus {
   width: 256px;
   height: 256px;
   border-radius: 25%;
-  border: 1vmin solid hsl(0, 0%, 42%);
   box-shadow: 0 0 -1vmin -1vmin hsl(0, 0%, 10%);
   background: linear-gradient(to bottom, hsl(211, 25%, 60%) 30%, hsl(211, 25%, 40%) 100%);
   margin-bottom: 1em;
