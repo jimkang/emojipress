@@ -58,7 +58,7 @@ function wireForm() {
     curry(updateRoute)('text', textFieldEl)
   );
   fontSizeSliderEl.addEventListener(
-    'change',
+    'input',
     curry(updateRoute)('fontSize', fontSizeSliderEl)
   );
   fontSizeSliderEl.addEventListener('change', updateFontSizeLabel);

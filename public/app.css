@@ -100,7 +100,6 @@ button:focus {
   width: 256px;
   height: 256px;
   border-radius: 25%;
-  border: 1vmin solid hsl(0, 0%, 42%);
   box-shadow: 0 0 -1vmin -1vmin hsl(0, 0%, 10%);
   background: linear-gradient(to bottom, hsl(211, 25%, 60%) 30%, hsl(211, 25%, 40%) 100%);
   margin-bottom: 1em;
@@ -124,11 +123,15 @@ button:focus {
 #emoji-text {
   text-align: center;
   text-transform: uppercase;
-  color: #fff;
+  color: transparent;
   font-size: 10em;
-  font-family: "Helvetica Neue", Ubuntu, sans-serif;
+  font-family: "Avenir Next Condensed", "Helvetica Neue", Ubuntu, sans-serif;
   font-weight: bold;
   line-height: 100%;
+  text-shadow: 
+  0.01em 0.01em 0.02em #000,
+  0 0 0 rgba(255, 255, 255, 0.75);
+  filter: invert(1);
 }
 
 .result {
