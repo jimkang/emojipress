@@ -55,7 +55,7 @@ function updateForm({ text, fontSize, altBg, altBgOpacity }) {
   fontSizeSliderEl.value = fontSize;
   fontSizeLabelEl.textContent = fontSize;
   altBgToggle.checked = altBg;
-  altBgControlsEl.style.display = altBg ? 'inherit' : 'none';
+  altBgControlsEl.style.visibility = altBg ? 'visible' : 'hidden';
   altBgOverlayEl.style.display = altBg ? 'inherit' : 'none';
   altBgOpacitySliderEl.value = altBgOpacity;
   altBgOpacityLabelEl.textContent = altBgOpacity;
