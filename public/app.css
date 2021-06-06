@@ -1,3 +1,9 @@
+@font-face {
+  font-family: 'Avenir Next Condensed';
+  src:  local('Avenir Next Condensed'),
+        url(assets/AvenirNextCondensed-Bold.ttf);
+  font-weight: bold;
+}
 html, body {
 	position: relative;
 	width: 100%;
@@ -106,7 +112,7 @@ button:focus {
 }
 
 #alt-bg-overlay {
-  background: url(squared-emoji-blank.png);
+  background: url(assets/squared-emoji-blank.png);
   background-size: contain;
   position: absolute;
   width: 100%;
