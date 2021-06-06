@@ -133,6 +133,7 @@ button:focus {
 }
 
 #emoji-text {
+  width: 110%;
   text-align: center;
   text-transform: uppercase;
   color: transparent;
