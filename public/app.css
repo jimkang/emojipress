@@ -97,12 +97,24 @@ button:focus {
 }
 
 #preview-stage {
+  position: relative;
   width: 256px;
   height: 256px;
-  border-radius: 25%;
-  box-shadow: 0 0 -1vmin -1vmin hsl(0, 0%, 10%);
+  border-radius: 22%;
   background: linear-gradient(to bottom, hsl(211, 25%, 60%) 30%, hsl(211, 25%, 40%) 100%);
   margin-bottom: 1em;
+}
+
+#alt-bg-overlay {
+  background: url(squared-emoji-blank.png);
+  background-size: contain;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  opacity: .3;
 }
 
 .hidden {
@@ -111,11 +123,11 @@ button:focus {
 }
 
 .inner-shine {
-  margin-left: 3%;
-  margin-top: 3%;
-  border-radius: 24%;
-  width: 94%;
-  height: 94%;
+  margin-left: 5%;
+  margin-top: 5%;
+  border-radius: 20%;
+  width: 90%;
+  height: 90%;
   background: linear-gradient(to bottom, hsla(207.8, 61.4%, 82.7%, 0.77) 0%, hsla(0, 0%, 0%, 0) 30%);
   justify-content: center;
 }
@@ -176,6 +188,21 @@ button:focus {
 }
 
 #font-size-label {
+  margin-left: 0.5em;
+}
+
+.alt-bg-opacity-subform {
+  display: flex;
+  align-items: center;
+}
+
+#alt-bg-opacity-slider {
+  margin-bottom: 0;
+  width: 100%;
+  height: 2rem;
+}
+
+#alt-bg-opacity-label {
   margin-left: 0.5em;
 }
 
