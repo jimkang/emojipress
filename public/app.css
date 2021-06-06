@@ -97,12 +97,25 @@ button:focus {
 }
 
 #preview-stage {
+  position: relative;
   width: 256px;
   height: 256px;
   border-radius: 25%;
   box-shadow: 0 0 -1vmin -1vmin hsl(0, 0%, 10%);
   background: linear-gradient(to bottom, hsl(211, 25%, 60%) 30%, hsl(211, 25%, 40%) 100%);
   margin-bottom: 1em;
+}
+
+#alt-bg-overlay {
+  background: url(squared-emoji-blank.png);
+  background-size: contain;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  opacity: .3;
 }
 
 .hidden {
@@ -176,6 +189,21 @@ button:focus {
 }
 
 #font-size-label {
+  margin-left: 0.5em;
+}
+
+.alt-bg-opacity-subform {
+  display: flex;
+  align-items: center;
+}
+
+#alt-bg-opacity-slider {
+  margin-bottom: 0;
+  width: 100%;
+  height: 2rem;
+}
+
+#alt-bg-opacity-label {
   margin-left: 0.5em;
 }
 

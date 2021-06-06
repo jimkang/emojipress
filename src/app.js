@@ -8,7 +8,12 @@ var formWired = false;
 var textFieldEl = document.getElementById('text-field');
 var fontSizeSliderEl = document.getElementById('font-size-slider');
 var fontSizeLabelEl = document.getElementById('font-size-label');
-// var imageSizeFieldEl = document.querySelector('input[name="image-size-field"]:checked');
+var altBgToggle = document.getElementById('alt-bg');
+var altBgOverlayEl = document.getElementById('alt-bg-overlay');
+var altBgControlsEl = document.getElementById('alt-bg-controls');
+var altBgOpacitySliderEl = document.getElementById('alt-bg-opacity-slider');
+var altBgOpacityLabelEl = document.getElementById('alt-bg-opacity-label');
+// var imageSizeFieldEl = document.querySelector('input[name='image-size-field']:checked');
 var emojiTextEl = document.getElementById('emoji-text');
 var buildButtonEl = document.getElementById('build-button');
 var previewStageEl = document.getElementById('preview-stage');
@@ -22,7 +27,8 @@ var resultInstructionEl = document.getElementById('result-instruction');
 
 var routeState = RouteState({
   followRoute,
-  windowObject: window
+  windowObject: window,
+  propsToCoerceToBool: ['altBg'],
 });
 
 (function go() {
@@ -31,21 +37,31 @@ var routeState = RouteState({
   routeState.routeFromHash();
 })();
 
-function followRoute({ text = 'lol', fontSize = 128 }) {
-  updateForm({ text, fontSize });
-  renderPreview({ text, fontSize });
+function followRoute({
+  text = 'lol',
+  fontSize = 128,
+  altBg = false,
+  altBgOpacity = 0,
+}) {
+  updateForm({ text, fontSize, altBg, altBgOpacity });
+  renderPreview({ text, fontSize, altBgOpacity });
   wireForm();
 }
 
-function updateForm({ text, fontSize }) {
+function updateForm({ text, fontSize, altBg, altBgOpacity }) {
   textFieldEl.value = text;
   fontSizeSliderEl.value = fontSize;
   fontSizeLabelEl.textContent = fontSize;
+  altBgControlsEl.style.display = altBg ? 'inherit' : 'none';
+  altBgOverlayEl.style.display = altBg ? 'inherit' : 'none';
+  altBgOpacitySliderEl.value = altBgOpacity;
+  altBgOpacityLabelEl.textContent = altBgOpacity;
 }
 
-function renderPreview({ text, fontSize }) {
+function renderPreview({ text, fontSize, altBgOpacity }) {
   emojiTextEl.style.fontSize = fontSize + 'px';
   emojiTextEl.textContent = text;
+  altBgOverlayEl.style.opacity = (altBgOpacity / 100);
 }
 
 function wireForm() {
@@ -62,6 +78,21 @@ function wireForm() {
     curry(updateRoute)('fontSize', fontSizeSliderEl)
   );
   fontSizeSliderEl.addEventListener('change', updateFontSizeLabel);
+
+  altBgToggle.addEventListener(
+    'change',
+    (e) => {
+      e.composing;
+      routeState.addToRoute({ altBg: altBgToggle.checked });
+    }
+  );
+
+  altBgOpacitySliderEl.addEventListener(
+    'input',
+    curry(updateRoute)('altBgOpacity', altBgOpacitySliderEl)
+  );
+  altBgOpacitySliderEl.addEventListener('change', updateAltBgOpacityLabel);
+
   buildButtonEl.addEventListener('click', onBuildClick);
 
   formWired = true;
@@ -74,6 +105,10 @@ function updateRoute(prop, inputEl, e) {
 
 function updateFontSizeLabel() {
   fontSizeLabelEl.textContent = fontSizeSliderEl.value;
+}
+
+function updateAltBgOpacityLabel() {
+  altBgOpacityLabelEl.textContent = altBgOpacitySliderEl.value;
 }
 
 function onBuildClick() {
