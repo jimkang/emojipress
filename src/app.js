@@ -43,7 +43,7 @@ function followRoute({
   text = 'lol',
   fontSize = 128,
   altBg = false,
-  altBgOpacity = 0,
+  altBgOpacity = 100,
 }) {
   updateForm({ text, fontSize, altBg, altBgOpacity });
   renderPreview({ text, fontSize, altBgOpacity });
