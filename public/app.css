@@ -52,7 +52,7 @@ input[type="range"] {
 	height: 0;
 }
 
-button {
+button, .link-button {
   color: #666;
   font-size: 1em;
   cursor: pointer;

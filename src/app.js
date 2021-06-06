@@ -2,6 +2,7 @@ import { version } from '../package.json';
 import RouteState from 'route-state';
 import handleError from 'handle-error-web';
 import curry from 'lodash.curry';
+import kebabCase from 'lodash.kebabcase';
 import domToImage from 'dom-to-image';
 
 var formWired = false;
@@ -13,6 +14,7 @@ var altBgOverlayEl = document.getElementById('alt-bg-overlay');
 var altBgControlsEl = document.getElementById('alt-bg-controls');
 var altBgOpacitySliderEl = document.getElementById('alt-bg-opacity-slider');
 var altBgOpacityLabelEl = document.getElementById('alt-bg-opacity-label');
+var downloadLinkEl = document.getElementById('download-link');
 // var imageSizeFieldEl = document.querySelector('input[name='image-size-field']:checked');
 var emojiTextEl = document.getElementById('emoji-text');
 var buildButtonEl = document.getElementById('build-button');
@@ -116,16 +118,20 @@ function onBuildClick() {
   resultSectionEl.classList.remove('hidden');
   domToImage
     .toPng(previewStageEl)
-    .then(renderResult)
+    .then(curry(renderResult)(kebabCase(textFieldEl.value)))
     .catch(handleError);
 }
 
-function renderResult(dataURL) {
+function renderResult(name, dataURL) {
   resultImageEl.src = dataURL;
   resultImageElSm.src = dataURL;
   resultImageElXs.src = dataURL;
   resultImageElSmDk.src = dataURL;
   resultImageElXsDk.src = dataURL;
+
+  downloadLinkEl.download = name;
+  downloadLinkEl.href = dataURL;
+
   resultInstructionEl.classList.remove('hidden');
 }
 

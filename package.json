@@ -21,6 +21,7 @@
     "dom-to-image": "^2.6.0",
     "handle-error-web": "^1.0.1",
     "lodash.curry": "^4.1.1",
+    "lodash.kebabcase": "^4.1.1",
     "route-state": "^2.0.5",
     "sirv-cli": "^0.4.4"
   }
