@@ -1,7 +1,7 @@
 {
   "name": "emojipress",
   "private": true,
-  "version": "1.0.7",
+  "version": "1.0.8",
   "scripts": {
     "build": "rollup -c",
     "dev": "rollup -c -w",
