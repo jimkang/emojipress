@@ -6,6 +6,7 @@ import kebabCase from 'lodash.kebabcase';
 import domToImage from 'dom-to-image';
 
 var formWired = false;
+var faviconEl = document.querySelector('link[rel~=icon]');
 var textFieldEl = document.getElementById('text-field');
 var fontSizeSliderEl = document.getElementById('font-size-slider');
 var fontSizeLabelEl = document.getElementById('font-size-label');
@@ -131,6 +132,8 @@ function renderResult(name, dataURL) {
 
   downloadLinkEl.download = name;
   downloadLinkEl.href = dataURL;
+
+  faviconEl.href = dataURL;
 
   resultInstructionEl.classList.remove('hidden');
 }

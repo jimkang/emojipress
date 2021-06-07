@@ -97,6 +97,7 @@ button:focus {
 }
 
 #preview-stage {
+  overflow: hidden;
   position: relative;
   width: 256px;
   height: 256px;
@@ -166,10 +167,6 @@ button:focus {
 #result-image {
   width: 256px;
   height: 256px;
-}
-
-#preview-stage {
-  overflow: hidden;
 }
 
 .form, .preview {
