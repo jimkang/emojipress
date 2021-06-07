@@ -43,7 +43,7 @@ function followRoute({
   text = 'lol',
   fontSize = 128,
   altBg = false,
-  altBgOpacity = 0,
+  altBgOpacity = 100,
 }) {
   updateForm({ text, fontSize, altBg, altBgOpacity });
   renderPreview({ text, fontSize, altBgOpacity });
@@ -55,7 +55,7 @@ function updateForm({ text, fontSize, altBg, altBgOpacity }) {
   fontSizeSliderEl.value = fontSize;
   fontSizeLabelEl.textContent = fontSize;
   altBgToggle.checked = altBg;
-  altBgControlsEl.style.display = altBg ? 'inherit' : 'none';
+  altBgControlsEl.style.visibility = altBg ? 'visible' : 'hidden';
   altBgOverlayEl.style.display = altBg ? 'inherit' : 'none';
   altBgOpacitySliderEl.value = altBgOpacity;
   altBgOpacityLabelEl.textContent = altBgOpacity;

@@ -101,8 +101,22 @@ button:focus {
   width: 256px;
   height: 256px;
   border-radius: 22%;
-  background: linear-gradient(to bottom, hsl(211, 25%, 60%) 30%, hsl(211, 25%, 40%) 100%);
+  background: linear-gradient(to bottom, hsl(209deg 40% 62%) 35%, hsl(209deg 22% 50%) 70%);
   margin-bottom: 1em;
+  box-shadow:
+    inset 0rem 0.25rem 1.25rem -0.15rem hsl(0deg 0% 0% / 60%),
+    inset 0 -3.75rem 0.5rem -4rem hsl(208deg 21% 14% / 0%);
+}
+    
+.inner-shine {
+  margin-left: 5.5%;
+  margin-top: 5%;
+  border-radius: 18%;
+  width: 89%;
+  height: 95%;
+  justify-content: center;
+  background: linear-gradient(to bottom, hsl(210deg 31% 88% / 100%) 0%, hsl(210deg 31% 88% / 1%) 25%, hsl(210deg 31% 88% / 3%) 0%);
+  filter: blur(.075rem);
 }
 
 #alt-bg-overlay {
@@ -122,16 +136,6 @@ button:focus {
   visibility: hidden;
 }
 
-.inner-shine {
-  margin-left: 5%;
-  margin-top: 5%;
-  border-radius: 20%;
-  width: 90%;
-  height: 90%;
-  background: linear-gradient(to bottom, hsla(207.8, 61.4%, 82.7%, 0.77) 0%, hsla(0, 0%, 0%, 0) 30%);
-  justify-content: center;
-}
-
 #emoji-text {
   width: 110%;
   text-align: center;
@@ -145,6 +149,10 @@ button:focus {
   0.01em 0.01em 0.02em #000,
   0 0 0 rgba(255, 255, 255, 0.75);
   filter: invert(1);
+  position: absolute;
+  top: 50%;
+  transform: translate(0, -50%);
+  width: 100%;
 }
 
 .result {
@@ -182,14 +190,16 @@ button:focus {
   align-items: center;
 }
 
+.range-label {
+  margin-left: 0.5em;
+  text-align: right;
+  width: 3rem;
+}
+
 #font-size-slider {
   margin-bottom: 0;
   width: 100%;
   height: 2rem;
-}
-
-#font-size-label {
-  margin-left: 0.5em;
 }
 
 .alt-bg-opacity-subform {
@@ -201,10 +211,6 @@ button:focus {
   margin-bottom: 0;
   width: 100%;
   height: 2rem;
-}
-
-#alt-bg-opacity-label {
-  margin-left: 0.5em;
 }
 
 .radlab, .radlab label {

@@ -27,14 +27,14 @@
             <h3>Font size:</h3>
             <div class="font-size-subform">
               <input id="font-size-slider" type="range" width="80%" value="128" min="24" max="300">
-              <span id="font-size-label">128</span>px
+              <span id="font-size-label" class="range-label">128</span>px
             </div>
           </li>
           <li>
             <h3><label>Use pixelated emoji background: <input id="alt-bg" type="checkbox" value="false" /></label></h3>
             <div id="alt-bg-controls" class="alt-bg-opacity-subform">
               <input id="alt-bg-opacity-slider" type="range" width="80%" value="0" min="0" max="100">
-              <span id="alt-bg-opacity-label">0</span>%
+              <span id="alt-bg-opacity-label" class="range-label">0</span>%
             </div>
           </li>
           <!-- <li>
@@ -59,10 +59,9 @@
       <section class="preview centered-col">
         <h2>Preview</h2>
         <div id="preview-stage">
+          <div class="inner-shine centered-col"></div>
           <div id="alt-bg-overlay"></div>
-          <div class="inner-shine centered-col">
-            <div id="emoji-text">text</div>
-          </div>
+          <div id="emoji-text">text</div>
         </div>
         <button id="build-button">Build it</button>
       </section>
