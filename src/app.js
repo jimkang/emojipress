@@ -5,11 +5,18 @@ import curry from 'lodash.curry';
 import kebabCase from 'lodash.kebabcase';
 import domToImage from 'dom-to-image';
 
+
 var formWired = false;
 var faviconEl = document.querySelector('link[rel~=icon]');
 var textFieldEl = document.getElementById('text-field');
 var fontSizeSliderEl = document.getElementById('font-size-slider');
 var fontSizeLabelEl = document.getElementById('font-size-label');
+
+var kerningToggle = document.getElementById('kerning-toggle');
+var kerningControlsEl = document.getElementById('kerning-controls');
+var kerningSliderEl = document.getElementById('kerning-slider');
+var kerningLabelEl = document.getElementById('kerning-label');
+
 var altBgToggle = document.getElementById('alt-bg');
 var altBgOverlayEl = document.getElementById('alt-bg-overlay');
 var altBgControlsEl = document.getElementById('alt-bg-controls');
@@ -44,19 +51,22 @@ var routeState = RouteState({
 
 function followRoute({
   text = 'lol',
-  fontSize = 128,
+  fontSize = 100,
+  kerning = '0.000',
   altBg = false,
   altBgOpacity = 100,
 }) {
-  updateForm({ text, fontSize, altBg, altBgOpacity });
-  renderPreview({ text, fontSize, altBgOpacity });
+  updateForm({ text, fontSize, kerning, altBg, altBgOpacity });
+  renderPreview({ text, fontSize, kerning, altBgOpacity });
   wireForm();
 }
 
-function updateForm({ text, fontSize, altBg, altBgOpacity }) {
+function updateForm({ text, fontSize, kerning, altBg, altBgOpacity }) {
   textFieldEl.value = text;
   fontSizeSliderEl.value = fontSize;
   fontSizeLabelEl.textContent = fontSize;
+  kerningToggle.checked = !!(kerning);
+  kerningControlsEl.style.display = kerning ? 'inherit' : 'none';
   altBgToggle.checked = altBg;
   altBgControlsEl.style.visibility = altBg ? 'visible' : 'hidden';
   altBgOverlayEl.style.display = altBg ? 'inherit' : 'none';
@@ -64,9 +74,12 @@ function updateForm({ text, fontSize, altBg, altBgOpacity }) {
   altBgOpacityLabelEl.textContent = altBgOpacity;
 }
 
-function renderPreview({ text, fontSize, altBgOpacity }) {
+function renderPreview({ text, fontSize, kerning, altBgOpacity }) {
   emojiTextEl.style.fontSize = fontSize + 'px';
   emojiTextEl.textContent = text;
+  if (kerning) {
+    emojiTextEl.style.letterSpacing = kerning + 'em';
+  }
   altBgOverlayEl.style.opacity = (altBgOpacity / 100);
 }
 
@@ -85,11 +98,29 @@ function wireForm() {
   );
   fontSizeSliderEl.addEventListener('change', updateFontSizeLabel);
 
+  kerningToggle.addEventListener(
+    'change',
+    (e) => {
+      e.composing;
+      if (kerningToggle.checked) {
+        routeState.addToRoute({ kerning: '0.000' });
+      } else {
+        routeState.removeFromRoute('kerning');
+      }
+    }
+  );
+  kerningSliderEl,addEventListener('input', curry(updateRoute)('kerning', kerningSliderEl));
+  kerningSliderEl.addEventListener('input', updateKerningLabel);
+  
   altBgToggle.addEventListener(
     'change',
     (e) => {
       e.composing;
-      routeState.addToRoute({ altBg: altBgToggle.checked });
+      if (altBgToggle.checked) {
+        routeState.addToRoute({ altBg: altBgToggle.checked });
+      } else {
+        routeState.removeFromRoute('altBg');
+      }
     }
   );
 
@@ -97,7 +128,7 @@ function wireForm() {
     'input',
     curry(updateRoute)('altBgOpacity', altBgOpacitySliderEl)
   );
-  altBgOpacitySliderEl.addEventListener('change', updateAltBgOpacityLabel);
+  altBgOpacitySliderEl.addEventListener('input', updateAltBgOpacityLabel);
 
   buildButtonEl.addEventListener('click', onBuildClick);
 
@@ -122,6 +153,10 @@ function updateRoute(prop, inputEl, e) {
 
 function updateFontSizeLabel() {
   fontSizeLabelEl.textContent = fontSizeSliderEl.value;
+}
+
+function updateKerningLabel() {
+  kerningLabelEl.textContent = kerningSliderEl.value.toString().padEnd(5, '0');
 }
 
 function updateAltBgOpacityLabel() {
