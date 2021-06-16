@@ -27,6 +27,7 @@ var resultImageElSmDk = document.getElementById('result-image-sm-dk');
 var resultImageElXsDk = document.getElementById('result-image-xs-dk');
 var resultSectionEl = document.querySelector('.result');
 var resultInstructionEl = document.getElementById('result-instruction');
+var darkModeToggle = document.getElementById('dark-theme-toggle');
 
 var routeState = RouteState({
   followRoute,
@@ -98,6 +99,10 @@ function wireForm() {
   altBgOpacitySliderEl.addEventListener('change', updateAltBgOpacityLabel);
 
   buildButtonEl.addEventListener('click', onBuildClick);
+
+  darkModeToggle.addEventListener('click', () => {
+    document.documentElement.classList.toggle('alt-theme');
+  });
 
   formWired = true;
 }
