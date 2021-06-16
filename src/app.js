@@ -100,7 +100,7 @@ function wireForm() {
 
   buildButtonEl.addEventListener('click', onBuildClick);
 
-  document.documentElement.classList.toggle('alt-theme', localStorage.getItem('preferAltTheme'));
+  document.documentElement.classList.toggle('alt-theme', JSON.parse(localStorage.getItem('preferAltTheme')));
 
   darkModeToggle.addEventListener('click', () => {
     var preferAltTheme = document.documentElement.classList.toggle('alt-theme');
