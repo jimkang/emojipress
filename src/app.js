@@ -5,10 +5,12 @@ import curry from 'lodash.curry';
 import kebabCase from 'lodash.kebabcase';
 import domToImage from 'dom-to-image';
 
+const DEFAULT_KERNING = '0.000';
 
 var formWired = false;
 var faviconEl = document.querySelector('link[rel~=icon]');
 var textFieldEl = document.getElementById('text-field');
+
 var fontSizeSliderEl = document.getElementById('font-size-slider');
 var fontSizeLabelEl = document.getElementById('font-size-label');
 
@@ -17,13 +19,14 @@ var kerningControlsEl = document.getElementById('kerning-controls');
 var kerningSliderEl = document.getElementById('kerning-slider');
 var kerningLabelEl = document.getElementById('kerning-label');
 
-var altBgToggle = document.getElementById('alt-bg');
+var altBgToggle = document.getElementById('alt-bg-toggle');
 var altBgOverlayEl = document.getElementById('alt-bg-overlay');
 var altBgControlsEl = document.getElementById('alt-bg-controls');
 var altBgOpacitySliderEl = document.getElementById('alt-bg-opacity-slider');
 var altBgOpacityLabelEl = document.getElementById('alt-bg-opacity-label');
+
 var downloadLinkEl = document.getElementById('download-link');
-// var imageSizeFieldEl = document.querySelector('input[name='image-size-field']:checked');
+
 var emojiTextEl = document.getElementById('emoji-text');
 var buildButtonEl = document.getElementById('build-button');
 var previewStageEl = document.getElementById('preview-stage');
@@ -52,12 +55,23 @@ var routeState = RouteState({
 function followRoute({
   text = 'lol',
   fontSize = 100,
-  kerning = '0.000',
+  kerning = DEFAULT_KERNING,
   altBg = false,
   altBgOpacity = 100,
 }) {
-  updateForm({ text, fontSize, kerning, altBg, altBgOpacity });
-  renderPreview({ text, fontSize, kerning, altBgOpacity });
+  updateForm({
+    text,
+    fontSize,
+    kerning: kerning !== DEFAULT_KERNING,
+    altBg,
+    altBgOpacity,
+  });
+  renderPreview({
+    text,
+    fontSize,
+    kerning: kerning !== DEFAULT_KERNING && kerning,
+    altBgOpacity,
+  });
   wireForm();
 }
 
@@ -65,7 +79,7 @@ function updateForm({ text, fontSize, kerning, altBg, altBgOpacity }) {
   textFieldEl.value = text;
   fontSizeSliderEl.value = fontSize;
   fontSizeLabelEl.textContent = fontSize;
-  kerningToggle.checked = !!(kerning);
+  kerningToggle.checked = kerning;
   kerningControlsEl.style.display = kerning ? 'inherit' : 'none';
   altBgToggle.checked = altBg;
   altBgControlsEl.style.visibility = altBg ? 'visible' : 'hidden';
@@ -77,10 +91,12 @@ function updateForm({ text, fontSize, kerning, altBg, altBgOpacity }) {
 function renderPreview({ text, fontSize, kerning, altBgOpacity }) {
   emojiTextEl.style.fontSize = fontSize + 'px';
   emojiTextEl.textContent = text;
-  if (kerning) {
+  if (kerning !== DEFAULT_KERNING) {
     emojiTextEl.style.letterSpacing = kerning + 'em';
+  } else {
+    emojiTextEl.style.removeProperty('letter-spacing');
   }
-  altBgOverlayEl.style.opacity = (altBgOpacity / 100);
+  altBgOverlayEl.style.opacity = altBgOpacity / 100;
 }
 
 function wireForm() {
@@ -98,31 +114,26 @@ function wireForm() {
   );
   fontSizeSliderEl.addEventListener('change', updateFontSizeLabel);
 
-  kerningToggle.addEventListener(
-    'change',
-    (e) => {
-      e.composing;
-      if (kerningToggle.checked) {
-        routeState.addToRoute({ kerning: '0.000' });
-      } else {
-        routeState.removeFromRoute('kerning');
-      }
+  kerningToggle.addEventListener('change', (e) => {
+    e.composing;
+    if (kerningToggle.checked) {
+      routeState.addToRoute({ kerning: kerningSliderEl.value });
+    } else {
+      routeState.removeFromRoute('kerning');
     }
-  );
-  kerningSliderEl,addEventListener('input', curry(updateRoute)('kerning', kerningSliderEl));
+  });
+  kerningSliderEl,
+  addEventListener('input', curry(updateRoute)('kerning', kerningSliderEl));
   kerningSliderEl.addEventListener('input', updateKerningLabel);
-  
-  altBgToggle.addEventListener(
-    'change',
-    (e) => {
-      e.composing;
-      if (altBgToggle.checked) {
-        routeState.addToRoute({ altBg: altBgToggle.checked });
-      } else {
-        routeState.removeFromRoute('altBg');
-      }
+
+  altBgToggle.addEventListener('change', (e) => {
+    e.composing;
+    if (altBgToggle.checked) {
+      routeState.addToRoute({ altBg: altBgToggle.checked });
+    } else {
+      routeState.removeFromRoute('altBg');
     }
-  );
+  });
 
   altBgOpacitySliderEl.addEventListener(
     'input',
