@@ -5,10 +5,16 @@ import curry from 'lodash.curry';
 import kebabCase from 'lodash.kebabcase';
 import domToImage from 'dom-to-image';
 
-const DEFAULT_KERNING = '0.000';
+const DEFAULT_VALUES = {
+  kerning: '0.000',
+  altBg: false,
+  altBgOpacity: 100,
+};
 
+const advancedControlsParams = ['kerning', 'altBg', 'altBgOpacity'];
 var formWired = false;
 var advancedControlsAreVisible = false;
+
 var faviconEl = document.querySelector('link[rel~=icon]');
 var textFieldEl = document.getElementById('text-field');
 
@@ -58,30 +64,38 @@ var routeState = RouteState({
 function followRoute({
   text = 'lol',
   fontSize = 100,
-  kerning = DEFAULT_KERNING,
-  altBg = false,
-  altBgOpacity = 100,
+  kerning = DEFAULT_VALUES.kerning,
+  altBg = DEFAULT_VALUES.altBg,
+  altBgOpacity = DEFAULT_VALUES.altBgOpacity,
 }) {
   updateForm({
     text,
     fontSize,
-    kerning: kerning !== DEFAULT_KERNING,
+    kerning,
     altBg,
     altBgOpacity,
   });
   renderPreview({
     text,
     fontSize,
-    kerning: kerning !== DEFAULT_KERNING && kerning,
+    kerning: kerning !== DEFAULT_VALUES.kerning && kerning,
     altBgOpacity,
   });
-  wireForm();
+  wireForm({
+    kerning,
+    altBg,
+    altBgOpacity,
+  });
 }
 
-function updateForm({ text, fontSize, altBg, altBgOpacity }) {
+function updateForm({ text, fontSize, kerning, altBg, altBgOpacity }) {
   textFieldEl.value = text;
   fontSizeSliderEl.value = fontSize;
   fontSizeLabelEl.textContent = fontSize;
+
+  kerningSliderEl.value = kerning;
+  kerningLabelEl.textContent = kerning;
+
   altBgToggle.checked = altBg;
   altBgControlsEl.style.visibility = altBg ? 'visible' : 'hidden';
   altBgOverlayEl.style.display = altBg ? 'inherit' : 'none';
@@ -100,7 +114,7 @@ function renderPreview({ text, fontSize, kerning, altBgOpacity }) {
   altBgOverlayEl.style.opacity = altBgOpacity / 100;
 }
 
-function wireForm() {
+function wireForm({kerning, altBg, altBgOpacity}) {
   if (formWired) {
     return;
   }
@@ -115,36 +129,22 @@ function wireForm() {
   );
   fontSizeSliderEl.addEventListener('change', updateFontSizeLabel);
 
+  advancedControlsAreVisible = areAdvancedControlsModified({kerning, altBg, altBgOpacity});
+  formEl.classList.toggle('expanded', advancedControlsAreVisible);
   advancedControls.forEach(({classList}) => classList.toggle('hidden', !advancedControlsAreVisible));
-  formExpander.classList.toggle('hidden', advancedControlsAreVisible);
-
+  
+  formExpander.classList.toggle('hidden', false);
+  
   formExpander.addEventListener('mouseenter', () => {
     formEl.classList.toggle('highlighted', true);
   });
+  
   formExpander.addEventListener('mouseleave', () => {
     formEl.classList.toggle('highlighted', false);
   });
+  
+  formExpander.addEventListener('click', toggleAdvancedControls);
 
-  formExpander.addEventListener('click', () => {
-    advancedControlsAreVisible = !advancedControlsAreVisible;
-    formExpander.textContent = advancedControlsAreVisible ? 'Less' : 'More';
-    formEl.classList.toggle('expanded', advancedControlsAreVisible);
-    advancedControls.forEach(({classList}) => classList.toggle('hidden', !advancedControlsAreVisible));
-    if (advancedControlsAreVisible) {
-      advancedControls[0].querySelector('input').focus();
-    } else {
-      formEl.querySelector('input').focus();
-    }
-  });
-
-  // kerningToggle.addEventListener('change', (e) => {
-  //   e.composing;
-  //   if (kerningToggle.checked) {
-  //     routeState.addToRoute({ kerning: kerningSliderEl.value });
-  //   } else {
-  //     routeState.removeFromRoute('kerning');
-  //   }
-  // });
   kerningSliderEl.addEventListener('input', curry(updateRoute)('kerning', kerningSliderEl));
   kerningSliderEl.addEventListener('input', updateKerningLabel);
 
@@ -225,6 +225,22 @@ function renderVersion() {
 
 function reportTopLevelError(msg, url, lineNo, columnNo, error) {
   handleError(error);
+}
+
+function areAdvancedControlsModified (controlValues) {
+  return advancedControlsParams.some((param) => DEFAULT_VALUES[param] !== controlValues[param]);
+}
+
+function toggleAdvancedControls () {
+  advancedControlsAreVisible = !advancedControlsAreVisible;
+  formExpander.textContent = advancedControlsAreVisible ? 'Less' : 'More';
+  formEl.classList.toggle('expanded', advancedControlsAreVisible);
+  advancedControls.forEach(({classList}) => classList.toggle('hidden', !advancedControlsAreVisible));
+  if (advancedControlsAreVisible) {
+    advancedControls[0].querySelector('input').focus();
+  } else {
+    formEl.querySelector('input').focus();
+  }
 }
 
 function setThemeInfo() {
