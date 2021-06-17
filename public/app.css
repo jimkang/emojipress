@@ -242,7 +242,7 @@ button:focus {
 .form ul li {
   margin: 0.5rem;
   flex: 1;
-  min-width: 45%;
+  min-width: 50%;
   transition: flex 0.5s cubic-bezier(0.46, 0.03, 0.52, 0.96);
 }
 
