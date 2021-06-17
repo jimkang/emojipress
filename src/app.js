@@ -8,14 +8,17 @@ import domToImage from 'dom-to-image';
 const DEFAULT_KERNING = '0.000';
 
 var formWired = false;
+var advancedControlsAreVisible = false;
 var faviconEl = document.querySelector('link[rel~=icon]');
 var textFieldEl = document.getElementById('text-field');
 
 var fontSizeSliderEl = document.getElementById('font-size-slider');
 var fontSizeLabelEl = document.getElementById('font-size-label');
 
-var kerningToggle = document.getElementById('kerning-toggle');
-var kerningControlsEl = document.getElementById('kerning-controls');
+var formEl = document.querySelector('.form');
+var advancedControls = document.querySelectorAll('.advanced-controls');
+var formExpander = document.querySelector('.form-expander');
+
 var kerningSliderEl = document.getElementById('kerning-slider');
 var kerningLabelEl = document.getElementById('kerning-label');
 
@@ -75,12 +78,10 @@ function followRoute({
   wireForm();
 }
 
-function updateForm({ text, fontSize, kerning, altBg, altBgOpacity }) {
+function updateForm({ text, fontSize, altBg, altBgOpacity }) {
   textFieldEl.value = text;
   fontSizeSliderEl.value = fontSize;
   fontSizeLabelEl.textContent = fontSize;
-  kerningToggle.checked = kerning;
-  kerningControlsEl.style.display = kerning ? 'inherit' : 'none';
   altBgToggle.checked = altBg;
   altBgControlsEl.style.visibility = altBg ? 'visible' : 'hidden';
   altBgOverlayEl.style.display = altBg ? 'inherit' : 'none';
@@ -91,7 +92,7 @@ function updateForm({ text, fontSize, kerning, altBg, altBgOpacity }) {
 function renderPreview({ text, fontSize, kerning, altBgOpacity }) {
   emojiTextEl.style.fontSize = fontSize + 'px';
   emojiTextEl.textContent = text;
-  if (kerning !== DEFAULT_KERNING) {
+  if (kerning) {
     emojiTextEl.style.letterSpacing = kerning + 'em';
   } else {
     emojiTextEl.style.removeProperty('letter-spacing');
@@ -114,16 +115,37 @@ function wireForm() {
   );
   fontSizeSliderEl.addEventListener('change', updateFontSizeLabel);
 
-  kerningToggle.addEventListener('change', (e) => {
-    e.composing;
-    if (kerningToggle.checked) {
-      routeState.addToRoute({ kerning: kerningSliderEl.value });
+  advancedControls.forEach(({classList}) => classList.toggle('hidden', !advancedControlsAreVisible));
+  formExpander.classList.toggle('hidden', advancedControlsAreVisible);
+
+  formExpander.addEventListener('mouseenter', () => {
+    formEl.classList.toggle('highlighted', true);
+  });
+  formExpander.addEventListener('mouseleave', () => {
+    formEl.classList.toggle('highlighted', false);
+  });
+
+  formExpander.addEventListener('click', () => {
+    advancedControlsAreVisible = !advancedControlsAreVisible;
+    formExpander.textContent = advancedControlsAreVisible ? 'Less' : 'More';
+    formEl.classList.toggle('expanded', advancedControlsAreVisible);
+    advancedControls.forEach(({classList}) => classList.toggle('hidden', !advancedControlsAreVisible));
+    if (advancedControlsAreVisible) {
+      advancedControls[0].querySelector('input').focus();
     } else {
-      routeState.removeFromRoute('kerning');
+      formEl.querySelector('input').focus();
     }
   });
-  kerningSliderEl,
-  addEventListener('input', curry(updateRoute)('kerning', kerningSliderEl));
+
+  // kerningToggle.addEventListener('change', (e) => {
+  //   e.composing;
+  //   if (kerningToggle.checked) {
+  //     routeState.addToRoute({ kerning: kerningSliderEl.value });
+  //   } else {
+  //     routeState.removeFromRoute('kerning');
+  //   }
+  // });
+  kerningSliderEl.addEventListener('input', curry(updateRoute)('kerning', kerningSliderEl));
   kerningSliderEl.addEventListener('input', updateKerningLabel);
 
   altBgToggle.addEventListener('change', (e) => {

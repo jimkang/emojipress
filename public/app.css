@@ -163,8 +163,7 @@ button:focus {
 }
 
 #alt-bg-overlay {
-  /* background: url(squared-emoji-blank.png); */
-  background: url(unsquared-cool-emoji.png);
+  background: url(squared-emoji-blank.png);
   background-size: contain;
   position: absolute;
   width: 100%;
@@ -219,10 +218,40 @@ button:focus {
   margin:0 auto;
 }
 
+.form {
+  position: relative;
+  padding: 1.5rem;
+  border-radius: 0.5rem;
+  transition: box-shadow 0.3s cubic-bezier(0.46, 0.03, 0.52, 0.96);
+}
+
+.form.highlighted, .form.expanded {
+  box-shadow: 0 0 .5rem var(--high-contrast-color);
+}
+
 .form ul {
   list-style-type: none;
-  margin:0;
-  padding:0;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  align-items: flex-end;
+}
+
+.form ul li {
+  margin: 0.5rem;
+  flex: 1;
+  min-width: 45%;
+  transition: flex 0.5s cubic-bezier(0.46, 0.03, 0.52, 0.96);
+}
+
+.form-expander {
+  font-size: 0.5rem;
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: 0.5rem;
 }
 
 .slider-subform {
@@ -240,6 +269,10 @@ button:focus {
   margin-bottom: 0;
   width: 100%;
   height: 2rem;
+}
+
+.form:not(.expanded) .advanced-controls {
+  flex: 0;
 }
 
 .radlab, .radlab label {

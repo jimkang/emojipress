@@ -30,37 +30,22 @@
               <span id="font-size-label" class="range-label">100</span>px
             </div>
           </li>
-          <li>
-            <h3><label class="clickable-heading">Adjust kerning: <input id="kerning-toggle" type="checkbox" value="false" /></label></h3>
+          <li class="advanced-controls">
+            <h3>Kerning:</h3>
             <div id="kerning-controls" class="slider-subform">
               <input id="kerning-slider" class="slider" type="range" width="80%" value="0.000" min="-1.0" max="1.0" step="0.005">
               <span id="kerning-label" class="range-label">0.000</span>em
             </div>
           </li>
-          <li>
+          <li class="advanced-controls">
             <h3><label class="clickable-heading">Use pixelated emoji background: <input id="alt-bg-toggle" type="checkbox" value="false" /></label></h3>
             <div id="alt-bg-controls" class="slider-subform">
               <input id="alt-bg-opacity-slider" class="slider" type="range" width="80%" value="0" min="0" max="100">
               <span id="alt-bg-opacity-label" class="range-label">0</span>%
             </div>
           </li>
-          <!-- <li>
-            <h3>Image size:</h3> -->
-            <!-- <input id="image-size-field" type="text" value="256px"> -->
-            <!-- <div class="radlab">
-              <input type="radio" id="small" name="image-size-field" value="128px">
-              <label for="small">Small</label>
-            </div>
-            <div class="radlab">
-              <input type="radio" id="medium" name="image-size-field" value="256px" checked>
-              <label for="medium">Medium</label>
-            </div>
-            <div class="radlab">
-              <input type="radio" id="large" name="image-size-field" value="512px">
-              <label for="large">Large</label>
-            </div>
-          </li> -->
         </ul>
+        <button class="form-expander hidden" type="button">More</button>
       </section>
 
       <section class="preview centered-col">
@@ -70,7 +55,7 @@
           <div id="alt-bg-overlay"></div>
           <div id="emoji-text">text</div>
         </div>
-        <button id="build-button">Build it</button>
+        <button type="button" id="build-button">Build it</button>
       </section>
 
       <section class="result hidden centered-col">
