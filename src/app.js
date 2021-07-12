@@ -28,6 +28,7 @@ var resultImageElXsDk = document.getElementById('result-image-xs-dk');
 var resultSectionEl = document.querySelector('.result');
 var resultInstructionEl = document.getElementById('result-instruction');
 var darkModeToggle = document.getElementById('dark-theme-toggle');
+var darkMediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
 
 var routeState = RouteState({
   followRoute,
@@ -100,11 +101,15 @@ function wireForm() {
 
   buildButtonEl.addEventListener('click', onBuildClick);
 
-  document.documentElement.classList.toggle('alt-theme', JSON.parse(localStorage.getItem('preferAltTheme')));
-
+  setThemeInfo();
+  darkMediaQuery.addEventListener('change', () => {
+    setThemeInfo();
+  });
+  
   darkModeToggle.addEventListener('click', () => {
     var preferAltTheme = document.documentElement.classList.toggle('alt-theme');
     localStorage.setItem('preferAltTheme', preferAltTheme);
+    setThemeInfo();
   });
 
   formWired = true;
@@ -152,4 +157,11 @@ function renderVersion() {
 
 function reportTopLevelError(msg, url, lineNo, columnNo, error) {
   handleError(error);
+}
+
+function setThemeInfo() {
+  const preferAltTheme = JSON.parse(localStorage.getItem('preferAltTheme'));
+  const otherName = (darkMediaQuery.matches ? !preferAltTheme : preferAltTheme) ? 'light' : 'dark';
+  document.documentElement.classList.toggle('alt-theme', preferAltTheme);
+  darkModeToggle.textContent = `Use ${otherName} theme`;
 }
